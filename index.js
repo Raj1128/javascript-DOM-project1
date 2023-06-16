@@ -20,21 +20,49 @@ app.innerHTML = `
 </div>
 `;
 // selectors
+const root = document.querySelector('.todos');
+const list = root.querySelector('.todos-list');
 const form = document.forms.todos;
 const input = form.elements.todo;
 
 // functions
-function  addTodo(event){
-    event.preventDefault();
-    const label = input.value.trim();
-    const complete = false;
+
+
+function renderTodos(todos) {
+  let todoString = '';
+  todos.forEach((todo, index) => {
+    todoString += `
+   <li data-id="${index}">
+      <input type="checkbox">
+      <span>${todo.label}</span>
+      <button type="button"> </button>   
+   </li>
+   `;
+  }
+  );
+  list.innerHTML = todoString;
+
+}
+function addTodo(event) {
+  event.preventDefault();
+  const label = input.value.trim();
+  const complete = false;
+  todos = [
+    ...todos,
+    {
+      label,
+      complete,
+    },
+  ];
+  renderTodos(todos);
+  input.value = '';
 }
 
 
 // init
-function init(){
-//   add Todo
-   form.addEventListener('submit',addTodo);
+function init() {
+  //   add Todo
+  form.addEventListener('submit', addTodo);
 }
 
 init();
